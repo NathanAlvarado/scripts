@@ -1,10 +1,10 @@
 <#
 .SYNOPSIS
-    This function delete AppLocker settings using MDM WMI Bridge
+    This function delete AppLocker settings using MDM Bridge WMI Provider
 .DESCRIPTION
     This script will delete AppLocker settings
 .NOTES
-    Credit goes to Sandy Zeng for the orginal idea
+    Credit goes to Sandy Zeng for the orginal idea https://github.com/sandytsang/MSIntune/tree/master/Intune-PowerShell/AppLocker
     Licensed under the MIT license.
 #>
 
