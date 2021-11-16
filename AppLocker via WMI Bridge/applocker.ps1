@@ -1,8 +1,6 @@
 <#
-.SYNOPSIS
-    This function create new AppLocker settings using MDM Bridge WMI Provider
 .DESCRIPTION
-    This script will create default AppLocker settings for Auditing
+    This script will create new AppLocker settings or update existing settings using MDM Bridge WMI Provider
 .NOTES
     Credit goes to Sandy Zeng for the orginal idea https://github.com/sandytsang/MSIntune/tree/master/Intune-PowerShell/AppLocker
     Licensed under the MIT license.
@@ -11,9 +9,8 @@
 # Set the Application Identity service to auto
 sc.exe config appidsvc start= auto
 
-$namespaceName = "root\cimv2\mdm\dmmap" #Do not change this
-
-# DO NOT CHANGE Class Names
+# Do not change namespace or classnames
+$namespaceName = "root\cimv2\mdm\dmmap"
 $execlassName = "MDM_AppLocker_ApplicationLaunchRestrictions01_EXE03"
 $msiclassName = "MDM_AppLocker_MSI03"
 $scriptclassName = "MDM_AppLocker_Script03"
@@ -26,7 +23,6 @@ $existEXE = Get-CimInstance -Namespace $namespaceName -ClassName $execlassname -
 $existMSI = Get-CimInstance -Namespace $namespaceName -ClassName $msiclassName -Filter "ParentID=`'$parentID`' and InstanceID='MSI'"
 $existSCRIPT = Get-CimInstance -Namespace $namespaceName -ClassName $scriptclassName -Filter "ParentID=`'$parentID`' and InstanceID='SCRIPT'"
 $existAPPX = Get-CimInstance -Namespace $namespaceName -ClassName $appxclassName -Filter "ParentID=`'$parentID`' and InstanceID='STOREAPPS'"
-
 
 Add-Type -AssemblyName System.Web
 
@@ -61,7 +57,7 @@ $xmlEXE = [System.Net.WebUtility]::HtmlEncode(@"
 $existEXE.Policy = $xmlEXE
 
 $xmlMSI = [System.Net.WebUtility]::HtmlEncode(@"
-  <RuleCollection Type="Msi" EnforcementMode="AuditOnly">
+  <RuleCollection Type="Msi" EnforcementMode="Enabled">
     <FilePublisherRule Id="b7af7102-efde-4369-8a89-7a6a392d1473" Name="(Default Rule) All digitally signed Windows Installer files" Description="Allows members of the Everyone group to run digitally signed Windows Installer files." UserOrGroupSid="S-1-1-0" Action="Allow">
       <Conditions>
         <FilePublisherCondition PublisherName="*" ProductName="*" BinaryName="*">
@@ -84,7 +80,7 @@ $xmlMSI = [System.Net.WebUtility]::HtmlEncode(@"
 $existMSI.Policy = $xmlMSI
 
 $xmlSCRIPT = [System.Net.WebUtility]::HtmlEncode(@"
-  <RuleCollection Type="Script" EnforcementMode="AuditOnly">
+  <RuleCollection Type="Script" EnforcementMode="Enabled">
     <FilePathRule Id="06dce67b-934c-454f-a263-2515c8796a5d" Name="(Default Rule) All scripts located in the Program Files folder" Description="Allows members of the Everyone group to run scripts that are located in the Program Files folder." UserOrGroupSid="S-1-1-0" Action="Allow">
       <Conditions>
         <FilePathCondition Path="%PROGRAMFILES%\*" />
@@ -117,36 +113,31 @@ $xmlAPPX = [System.Net.WebUtility]::HtmlEncode(@"
 "@)
 $existAPPX.Policy = $xmlAPPX
 
-$existEXE = Get-CimInstance -Namespace $namespaceName -ClassName $execlassname -Filter "ParentID=`'$parentID`' and InstanceID='EXE'"
-$existMSI = Get-CimInstance -Namespace $namespaceName -ClassName $msiclassName -Filter "ParentID=`'$parentID`' and InstanceID='MSI'"
-$existSCRIPT = Get-CimInstance -Namespace $namespaceName -ClassName $scriptclassName -Filter "ParentID=`'$parentID`' and InstanceID='SCRIPT'"
-$existAPPX = Get-CimInstance -Namespace $namespaceName -ClassName $appxclassName -Filter "ParentID=`'$parentID`' and InstanceID='STOREAPPS'"
-
 # Create policies or Update policies if they are already created
 if (!$existEXE) {
-  # Policy does not exist, time to create it!
   New-CimInstance -Namespace $namespaceName -ClassName $execlassName -Property @{ParentID=$parentID;InstanceID="Exe";Policy=$xmlEXE}
 }
-  # Policy exists, time to update it!
+else {
   Set-CimInstance -CimInstance $existEXE
+}
 
 if (!$existMSI) {
-  # Policy does not exist, time to create it!
   New-CimInstance -Namespace $namespaceName -ClassName $msiclassName -Property @{ParentID=$parentID;InstanceID="Msi";Policy=$xmlMSI}
 }
-  # Policy exists, time to update it!
+else {
   Set-CimInstance -CimInstance $existMSI
+}
 
 if (!$existSCRIPT) {
-  # Policy does not exist, time to create it!
   New-CimInstance -Namespace $namespaceName -ClassName $scriptclassName -Property @{ParentID=$parentID;InstanceID="Script";Policy=$xmlSCRIPT}
 }
-  # Policy exists, time to update it!
+else {
   Set-CimInstance -CimInstance $existSCRIPT
+}
 
 if (!$existAPPX) {
-  # Policy does not exist, time to create it!
   New-CimInstance -Namespace $namespaceName -ClassName $appxclassName -Property @{ParentID=$parentID;InstanceID="StoreApps";Policy=$xmlAPPX}
 }
-  # Policy exists, time to update it!
+else {
   Set-CimInstance -CimInstance $existAPPX
+}
