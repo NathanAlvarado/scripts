@@ -16,7 +16,7 @@ $msiclassName = "MDM_AppLocker_MSI03"
 $scriptclassName = "MDM_AppLocker_Script03"
 $appxclassName = "MDM_AppLocker_ApplicationLaunchRestrictions01_StoreApps03"
 
-$GroupName = "AppLocker001" #You can use your own Groupname, don't use special charaters or with space
+$GroupName = "AppLocker001" #You can use your own Groupname, don't use special charaters or white space
 $parentID = "./Vendor/MSFT/AppLocker/ApplicationLaunchRestrictions/$GroupName"
 
 $existEXE = Get-CimInstance -Namespace $namespaceName -ClassName $execlassname -Filter "ParentID=`'$parentID`' and InstanceID='EXE'"
@@ -29,7 +29,7 @@ Add-Type -AssemblyName System.Web
 # AppLocker XML
 
 $xmlEXE = [System.Net.WebUtility]::HtmlEncode(@"
-<RuleCollection Type="Exe" EnforcementMode="AuditOnly">
+<RuleCollection Type="Exe" EnforcementMode="Enabled">
     <FilePathRule Id="921cc481-6e17-4653-8f75-050b80acca20" Name="(Default Rule) All files located in the Program Files folder" Description="Allows members of the Everyone group to run applications that are located in the Program Files folder." UserOrGroupSid="S-1-1-0" Action="Allow">
       <Conditions>
         <FilePathCondition Path="%PROGRAMFILES%\*" />
@@ -45,9 +45,30 @@ $xmlEXE = [System.Net.WebUtility]::HtmlEncode(@"
         <FilePathCondition Path="*" />
       </Conditions>
     </FilePathRule>
-    <FilePublisherRule Id="6a970cf4-9d41-441e-a677-1e0f66c9733c" Name="MICROSOFT TEAMS, from O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+    <FilePublisherRule Id="5c895db3-d32a-4f81-adf3-711904d7c86b" Name="Allow Google Software" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
       <Conditions>
-        <FilePublisherCondition PublisherName="O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" ProductName="MICROSOFT TEAMS" BinaryName="*">
+        <FilePublisherCondition PublisherName="O=GOOGLE LLC, L=MOUNTAIN VIEW, S=CALIFORNIA, C=US" ProductName="*" BinaryName="*">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="6a970cf4-9d41-441e-a677-1e0f66c9733c" Name="Allow Microsoft Software" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" ProductName="*" BinaryName="*">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="7646b5ef-5323-4e69-ac77-ee7a351632ad" Name="Allow Logitech Software" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=LOGITECH INC, L=NEWARK, S=CALIFORNIA, C=US" ProductName="*" BinaryName="*">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="353a25ec-bb46-4132-8dc9-b009a87fc836" Name="Allow Amazon Software" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=AMAZON.COM SERVICES LLC, L=SEATTLE, S=WASHINGTON, C=US" ProductName="*" BinaryName="*">
           <BinaryVersionRange LowSection="*" HighSection="*" />
         </FilePublisherCondition>
       </Conditions>
@@ -101,7 +122,7 @@ $xmlSCRIPT = [System.Net.WebUtility]::HtmlEncode(@"
 $existSCRIPT.Policy = $xmlSCRIPT
 
 $xmlAPPX = [System.Net.WebUtility]::HtmlEncode(@"
-  <RuleCollection Type="Appx" EnforcementMode="AuditOnly">
+  <RuleCollection Type="Appx" EnforcementMode="Enabled">
     <FilePublisherRule Id="a9e18c21-ff8f-43cf-b9fc-db40eed693ba" Name="(Default Rule) All signed packaged apps" Description="Allows members of the Everyone group to run packaged apps that are signed." UserOrGroupSid="S-1-1-0" Action="Allow">
       <Conditions>
         <FilePublisherCondition PublisherName="*" ProductName="*" BinaryName="*">
