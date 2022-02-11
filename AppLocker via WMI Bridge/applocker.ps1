@@ -73,6 +73,27 @@ $xmlEXE = [System.Net.WebUtility]::HtmlEncode(@"
         </FilePublisherCondition>
       </Conditions>
     </FilePublisherRule>
+    <FilePublisherRule Id="81a5edb6-80e0-4535-b7d9-f8163ec5748e" Name="Allow GitHub Softare" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=GITHUB, INC., L=SAN FRANCISCO, S=CALIFORNIA, C=US" ProductName="*" BinaryName="*">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="7efa5efc-e910-476d-b489-a33ae590c2e4" Name="Allow Git" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=JOHANNES SCHINDELIN, L=KÖLN, S=NORTH RHINE-WESTPHALIA, C=DE" ProductName="GIT" BinaryName="GIT.EXE">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="1f740886-0f2a-46cc-93a6-a14d4f2686c7" Name="Allow Zoom Softare" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=ZOOM VIDEO COMMUNICATIONS, INC., L=SAN JOSE, S=CALIFORNIA, C=US" ProductName="*" BinaryName="*">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
 </RuleCollection>
 "@) 
 $existEXE.Policy = $xmlEXE
