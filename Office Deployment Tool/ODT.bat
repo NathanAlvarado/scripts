@@ -70,12 +70,12 @@ ECHO              ..................................................
 ECHO.
 ECHO                        1 - Office 365 Business (Standard)
 ECHO                        2 - Office 365 ProPlus (E3, E5, Premium)
-ECHO                        3 - Office 2019 Standard (Volume)
-ECHO                        4 - Office 2019 Standard (Home and Business)
-ECHO                        5 - Office 2019 ProPlus (Volume)
-ECHO                        6 - Office 2019 ProPlus (Retail)
-ECHO                        7 - Project 2019 Standard (Volume)
-ECHO                        8 - Visio 2019 Standard (Volume)
+ECHO                        3 - Office 2021 Standard (Volume)
+ECHO                        4 - Office 2021 Standard (Home and Business)
+ECHO                        5 - Office 2021 ProPlus (Volume)
+ECHO                        6 - Office 2021 ProPlus (Retail)
+ECHO                        7 - Project 2021 Standard (Volume)
+ECHO                        8 - Visio 2021 Standard (Volume)
 ECHO                        9 - Manual Entry
 ECHO                        0 - EXIT
 ECHO.
@@ -83,12 +83,12 @@ ECHO.
 SET /P PRODUCTMENU-SELECTION=Select an option then press ENTER:
 IF %PRODUCTMENU-SELECTION%==1 GOTO O365BusinessRetail
 IF %PRODUCTMENU-SELECTION%==2 GOTO O365ProPlusRetail
-IF %PRODUCTMENU-SELECTION%==3 GOTO Standard2019Volume
-IF %PRODUCTMENU-SELECTION%==4 GOTO HomeBusiness2019Retail
-IF %PRODUCTMENU-SELECTION%==5 GOTO ProPlus2019Volume
-IF %PRODUCTMENU-SELECTION%==6 GOTO ProPlus2019Retail
-IF %PRODUCTMENU-SELECTION%==7 GOTO ProjectStd2019Volume
-IF %PRODUCTMENU-SELECTION%==8 GOTO VisioStd2019Volume
+IF %PRODUCTMENU-SELECTION%==3 GOTO Standard2021Volume
+IF %PRODUCTMENU-SELECTION%==4 GOTO HomeBusiness2021Retail
+IF %PRODUCTMENU-SELECTION%==5 GOTO ProPlus2021Volume
+IF %PRODUCTMENU-SELECTION%==6 GOTO ProPlus2021Retail
+IF %PRODUCTMENU-SELECTION%==7 GOTO ProjectStd2021Volume
+IF %PRODUCTMENU-SELECTION%==8 GOTO VisioStd2021Volume
 IF %PRODUCTMENU-SELECTION%==9 GOTO ManualEntry
 IF %PRODUCTMENU-SELECTION%==0 GOTO EOF
 GOTO PRODUCTMENU
@@ -99,44 +99,52 @@ GOTO BUILDXML
 :O365ProPlusRetail
 SET OFFICE-INSTALL-VERSION=O365ProPlusRetail
 GOTO BUILDXML
-:Standard2019Volume
-SET OFFICE-INSTALL-VERSION=Standard2019Volume
+:Standard2021Volume
+SET OFFICE-INSTALL-VERSION=Standard2021Volume
 GOTO BUILDXML
-:HomeBusiness2019Retail
-SET OFFICE-INSTALL-VERSION=HomeBusiness2019Retail
+:HomeBusiness2021Retail
+SET OFFICE-INSTALL-VERSION=HomeBusiness2021Retail
 GOTO BUILDXML
-:ProPlus2019Volume
-SET OFFICE-INSTALL-VERSION=ProPlus2019Volume
+:ProPlus2021Volume
+SET OFFICE-INSTALL-VERSION=ProPlus2021Volume
 GOTO BUILDXML
-:ProPlus2019Retail
-SET OFFICE-INSTALL-VERSION=ProPlus2019Retail
+:ProPlus2021Retail
+SET OFFICE-INSTALL-VERSION=ProPlus2021Retail
 GOTO BUILDXML
-:ProjectStd2019Volume
-SET OFFICE-INSTALL-VERSION=ProjectStd2019Volume
+:ProjectStd2021Volume
+SET OFFICE-INSTALL-VERSION=ProjectStd2021Volume
 GOTO BUILDXML
-:VisioStd2019Volume
-SET OFFICE-INSTALL-VERSION=VisioStd2019Volume
+:VisioStd2021Volume
+SET OFFICE-INSTALL-VERSION=VisioStd2021Volume
 GOTO BUILDXML
 :ManualEntry
-ECHO              ..................................................
-ECHO                       List of supported products
-ECHO              ..................................................
-ECHO O365ProPlusRetail      HomeStudent2019Retail    ProjectStdRetail       VisioStd2019Retail
-ECHO O365BusinessRetail     O365HomePremRetail       ProjectStdXVolume      VisioStd2019Volume
-ECHO VisioProRetail         OneNoteRetail            ProjectStd2019Retail   WordRetail
-ECHO ProjectProRetail       OutlookRetail            ProjectStd2019Volume   Word2019Retail
-ECHO AccessRuntimeRetail    Outlook2019Retail        ProPlus2019Volume      Word2019Volume
-ECHO LanguagePack           Outlook2019Volume        ProPlus2019Retail	
-ECHO AccessRetail           Personal2019Retail       PublisherRetail	
-ECHO Access2019Retail       PowerPointRetail         Publisher2019Retail	
-ECHO Access2019Volume       PowerPoint2019Retail     Publisher2019Volume	
-ECHO ExcelRetail            PowerPoint2019Volume     Standard2019Volume	
-ECHO Excel2019Retail        ProfessionalRetail       VisioProXVolume	
-ECHO Excel2019Volume        Professional2019Retail   VisioPro2019Retail	
-ECHO HomeBusinessRetail     ProjectProXVolume        VisioPro2019Volume	
-ECHO HomeBusiness2019Retail ProjectPro2019Retail     VisioStdRetail	
-ECHO HomeStudentRetail      ProjectPro2019Volume     VisioStdXVolume	
+ECHO .........................................................................................
+ECHO                                 Supported Products
+ECHO .........................................................................................
+ECHO O365BusinessRetail      O365ProPlusRetail       O365ProPlusEEANoTeamsRetail  O365BusinessEEANoTeamsRetail
+ECHO AccessRetail            Access2019Retail        Access2021Retail             Access2019Volume
+ECHO Access2021Volume        ExcelRetail             Excel2019Retail              Excel2021Retail
+ECHO Excel2019Volume         Excel2021Volume         HomeBusinessRetail           HomeBusiness2019Retail
+ECHO HomeBusiness2021Retail  HomeStudentRetail       HomeStudent2019Retail        HomeStudent2021Retail
+ECHO O365HomePremRetail      OneNoteFreeRetail       OneNoteRetail                OneNote2021Volume
+ECHO OutlookRetail           Outlook2019Retail       Outlook2021Retail            Outlook2019Volume
+ECHO Outlook2021Volume       Personal2019Retail      Personal2021Retail           PowerPointRetail
+ECHO PowerPoint2019Retail    PowerPoint2021Retail    PowerPoint2019Volume         PowerPoint2021Volume
+ECHO ProfessionalRetail      Professional2019Retail  Professional2021Retail       ProjectProXVolume
+ECHO ProjectPro2019Retail    ProjectPro2021Retail    ProjectPro2019Volume         ProjectPro2021Volume
+ECHO ProjectStdRetail        ProjectStdXVolume       ProjectStd2019Retail         ProjectStd2021Retail
+ECHO ProjectStd2019Volume    ProjectStd2021Volume    ProPlus2019Volume            ProPlus2021Volume
+ECHO ProPlusSPLA2021Volume   ProPlus2019Retail       ProPlus2021Retail            PublisherRetail
+ECHO Publisher2019Retail     Publisher2021Retail     Publisher2019Volume          Publisher2021Volume
+ECHO Standard2019Volume      Standard2021Volume      StandardSPLA2021Volume       VisioProXVolume
+ECHO VisioPro2019Retail      VisioPro2021Retail      VisioPro2019Volume           VisioPro2021Volume
+ECHO VisioStdRetail          VisioStdXVolume         VisioStd2019Retail           VisioStd2021Retail
+ECHO VisioStd2019Volume      VisioStd2021Volume      WordRetail                   Word2019Retail
+ECHO Word2021Retail          Word2019Volume          Word2021Volume
 ECHO.
+
+
+
 SET /p OFFICE-INSTALL-VERSION="Type a listed product: "
 GOTO BUILDXML
 
